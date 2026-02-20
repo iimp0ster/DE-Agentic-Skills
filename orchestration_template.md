@@ -2,9 +2,13 @@
 
 ## End-to-End Detection Engineering Workflow
 
-Use this template to execute the complete detection engineering process using all 6 skills in sequence.
+Use this template to execute the complete detection engineering process. The nine skills are organized into three groups:
 
-### Standard Orchestration Prompt
+- **Skills 1-6:** Core per-detection workflow
+- **Skills 7-8:** Accelerators (run before or alongside the core workflow)
+- **Skill 9:** Program-level coverage analysis (run across the detection library)
+
+### Standard Orchestration Prompt (Skills 1-6)
 
 ```
 Plan and design a detection for <THREAT_SCENARIO>.
@@ -26,6 +30,54 @@ Requirements:
 - Name the file using format: <platform>_<technique>_<specificity>.md
 
 Deliver the complete detection package ready for deployment.
+```
+
+### Threat Intel-Driven Workflow (Skill 7 → Skills 1-6)
+
+```
+I have the following threat intelligence: <PASTE REPORT TEXT OR LINK>
+
+Apply the Threat Intelligence Ingestion skill to:
+- Extract all ATT&CK techniques and sub-techniques
+- Catalog IOCs with volatility assessment
+- Identify behavioral patterns suitable for durable detection
+- Prioritize the top 3 detection candidates
+
+Then execute skills 1-6 for the highest-priority technique.
+Generate a Sigma rule.
+```
+
+### Environment-Aware Workflow (Skill 8 → Skills 1-6)
+
+```
+Before building detections, apply the Environment Baseline Profiling skill for our environment:
+- SIEM/data lake: <Splunk / Sentinel / Elastic / etc.>
+- EDR: <CrowdStrike / Defender / Carbon Black / etc.>
+- OS scope: <Windows / Linux / macOS / cloud>
+- Known noisy tools: <list scanners, backup agents, IT management platforms>
+- Data schema notes: <any field naming quirks or ingestion gaps>
+
+Use this baseline throughout skills 4 and 5 to pre-tune detection logic and
+filter lists for this environment. Then execute skills 1-6 for <THREAT_SCENARIO>.
+```
+
+### Program Coverage Review (Skill 9)
+
+```
+Apply the Detection Coverage & Gap Analysis skill to our detection library.
+
+Current detections:
+<List detections with ATT&CK IDs, or describe coverage areas>
+
+Context:
+- Industry/sector: <financial / healthcare / tech / etc.>
+- Primary threat concerns: <ransomware / nation-state / insider / etc.>
+- Available data sources: <list key log sources>
+
+Output:
+1. ATT&CK coverage heatmap by tactic
+2. Prioritized gap list (Critical/High/Medium/Low)
+3. Recommended next 5 detections with rationale
 ```
 
 ### Example Invocations
@@ -114,7 +166,7 @@ Context from my research:
 ## Integration Methods
 
 ### Claude Projects
-1. Upload all skill files (skill_01 through skill_06) to Project Knowledge
+1. Upload all skill files (skill_01 through skill_09) to Project Knowledge
 2. Upload this orchestration template
 3. In any new chat within the project, simply invoke:
    ```
@@ -133,6 +185,9 @@ Save skills to your detection repository:
       skill_04_detection_logic.md
       skill_05_validation_testing.md
       skill_06_blueprint_assembly.md
+      skill_07_threat_intel_ingestion.md
+      skill_08_environment_baseline.md
+      skill_09_coverage_gap_analysis.md
       orchestration.md
 ```
 
@@ -155,6 +210,9 @@ When user requests detection development, reference these skills:
 - Detection Logic Design: skill_04_detection_logic.md
 - Validation & Testing: skill_05_validation_testing.md
 - Blueprint Assembly: skill_06_blueprint_assembly.md
+- Threat Intel Ingestion: skill_07_threat_intel_ingestion.md
+- Environment Baseline Profiling: skill_08_environment_baseline.md
+- Coverage & Gap Analysis: skill_09_coverage_gap_analysis.md
 
 Default to Sigma rule generation unless YARA explicitly requested.
 ```
