@@ -4,14 +4,14 @@ A structured framework for planning, designing, validating, and maintaining secu
 
 ## Overview
 
-This skill set enables systematic detection development through six composable stages:
+Six composable skills that guide systematic detection development:
 
-1. **Research & Context** - Understand the threat and system internals
-2. **Detection Objective & Scope** - Define what to detect and boundaries
-3. **Data Source & Telemetry Mapping** - Identify required logs and fields
+1. **Research & Context** - Map the threat to MITRE ATT&CK, document normal vs. malicious behavior
+2. **Detection Objective & Scope** - Define what to detect, scope boundaries, and success criteria
+3. **Data Source & Telemetry Mapping** - Identify required logs, fields, and visibility gaps
 4. **Detection Logic Design** - Create analytical logic (Sigma/YARA/vendor-agnostic)
 5. **Validation & Testing Plan** - Design simulation and testing approach
-6. **Detection Blueprint Assembly** - Compile deployment-ready package
+6. **Detection Blueprint Assembly** - Compile a deployment-ready package
 
 ## File Structure
 
@@ -19,17 +19,15 @@ This skill set enables systematic detection development through six composable s
 detection_engineering_skills/
 ├── README.md                           # This file
 ├── orchestration_template.md           # Usage patterns and examples
-├── skill_01_research_context.md        # Threat and system research
-├── skill_02_detection_objective.md     # Scope and hypothesis definition
-├── skill_03_data_source_mapping.md     # Telemetry requirements
-├── skill_04_detection_logic.md         # Analytics design
-├── skill_05_validation_testing.md      # Testing methodology
-└── skill_06_blueprint_assembly.md      # Final package creation
+├── skill_01_research_context.md
+├── skill_02_detection_objective.md
+├── skill_03_data_source_mapping.md
+├── skill_04_detection_logic.md
+├── skill_05_validation_testing.md
+└── skill_06_blueprint_assembly.md
 ```
 
 ## Quick Start
-
-### Basic Usage
 
 ```
 Plan and design a detection for Kerberoasting attacks. Generate a Sigma rule.
@@ -46,58 +44,28 @@ Complete each skill fully before proceeding to the next.
 Present the final detection blueprint as a structured markdown document.
 ```
 
-### Output Example
-
-Running the above produces:
-- `windows_kerberoasting_suspicious_spn_requests.md` (detection blueprint)
-- MITRE ATT&CK mapping (T1558.003)
-- Sigma rule for Windows Security Event ID 4769
-- Test procedures using Atomic Red Team
-- False positive analysis
-- Response guidance
+This produces a complete detection package including MITRE ATT&CK mapping, a Sigma rule, Atomic Red Team test procedures, false positive analysis, and response guidance.
 
 ## Integration Platforms
 
-### Claude Projects (Recommended for Tyler)
+### Claude Projects (Recommended)
 
-**Setup:**
-1. Create new Claude Project: "Detection Engineering"
+1. Create a new Claude Project (e.g., "Detection Engineering")
 2. Upload all `.md` files from this directory to Project Knowledge
-3. Start new chat in project
-
-**Usage:**
-```
-Plan and design a detection for <threat>. Generate a Sigma rule.
-```
-
-**Benefits:**
-- No coding required
-- Persistent context across chats
-- Automatic skill access
+3. Start a new chat and prompt away — no coding required
 
 ### Claude Code
 
-**Setup:**
 ```bash
-# In your detection repository
 mkdir -p skills/detection_engineering
 cp *.md skills/detection_engineering/
-```
 
-**Usage:**
-```bash
-claude-code "Using detection engineering skills, create detection for 
+claude "Using detection engineering skills, create a detection for
 AWS IAM privilege escalation. Output Sigma rule to /detections/aws/"
 ```
 
-**Benefits:**
-- Automates file creation
-- Integrates with git workflow
-- Batch processing capabilities
-
 ### Cursor IDE
 
-**Setup:**
 Add to `.cursorrules`:
 ```
 Detection Engineering Skills: /skills/detection_engineering/
@@ -105,306 +73,83 @@ Default format: Sigma rules
 Prioritize precision over recall for detections
 ```
 
-**Usage:**
+Then use inline editing (`Cmd+K`) or chat:
 ```
-# Inline editing (Cmd+K)
-Using Detection Logic Design skill, convert this behavior to Sigma rule
-
-# Or in chat
-Apply Research & Context skill to OAuth token theft
+Using Detection Logic Design skill, convert this behavior to a Sigma rule
 ```
 
-**Benefits:**
-- Real-time assistance while coding
-- Inline rule generation
-- Debug existing detections
+## Usage Patterns
 
-## Skill Descriptions
-
-### Skill 1: Research & Context
-Maps threat to MITRE ATT&CK, documents normal vs. malicious behavior, identifies telemetry surfaces.
-
-**Use when:** Starting new detection from threat intel, incident, or technique
-
-**Output:** Context package with ATT&CK mapping, system baseline, attack patterns
-
-### Skill 2: Detection Objective & Scope
-Defines precise detection goals, scope boundaries, and success criteria.
-
-**Use when:** Translating research into actionable detection requirements
-
-**Output:** Detection hypothesis, exclusions, noise tolerance targets
-
-### Skill 3: Data Source & Telemetry Mapping
-Identifies required logs, maps to specific fields, documents visibility gaps.
-
-**Use when:** Planning data requirements before writing detection logic
-
-**Output:** Data source matrix, field mappings, configuration prerequisites
-
-### Skill 4: Detection Logic Design
-Creates vendor-agnostic analytics, optionally generates Sigma/YARA rules.
-
-**Use when:** Converting detection objectives into executable logic
-
-**Output:** Pseudo-logic description, Sigma/YARA rule (if requested), tuning notes
-
-### Skill 5: Validation & Testing Plan
-Designs positive/negative test cases, defines evaluation metrics.
-
-**Use when:** Planning validation before deployment
-
-**Output:** Test procedures, Atomic Red Team IDs, FP analysis approach
-
-### Skill 6: Detection Blueprint Assembly
-Compiles all artifacts into deployment-ready markdown documentation.
-
-**Use when:** Finalizing detection for repository commit
-
-**Output:** Complete detection package with metadata, logic, tests, limitations
-
-## Advanced Usage
-
-### Individual Skills
-
+### Full Workflow
 ```
-# Research only
-Apply Research & Context skill to Linux privilege escalation via cron
-
-# Testing only
-Run Validation & Testing Plan for this Sigma rule: [paste rule]
-
-# Logic design from existing research
-Using Detection Logic Design skill, create Sigma rule for:
-- Technique: Pass-the-Hash (T1550.002)
-- Observable: NTLM authentication from unexpected source
-- Environment: Windows with Security Event ID 4624
+Plan detection for <threat>. Generate a Sigma rule.
+Execute all 6 detection engineering skills in sequence.
 ```
 
 ### Partial Workflows
-
 ```
-# Skills 1-3 only (research through data mapping)
+# Research through data mapping only
 Execute skills 1-3 for Azure AD conditional access bypass.
-I'll write the detection logic after reviewing data requirements.
 
-# Skills 4-6 only (logic through deployment)
-I've researched OAuth device code phishing.
-Execute skills 4-6 starting with logic design. Generate Sigma rule.
-
-Context:
-- Technique: T1566.002
-- Target: Microsoft 365
-- Key indicator: Device code flow from suspicious locations
+# Logic through deployment only (when you have existing research)
+Execute skills 4-6 for OAuth device code phishing. Generate Sigma rule.
+Context: Technique T1566.002, Target: Microsoft 365
 ```
 
-### Custom Formats
-
+### Custom Output Formats
 ```
-# Splunk SPL instead of Sigma
 Plan detection for mimikatz. Generate logic in Splunk SPL format.
-
-# KQL for Microsoft Sentinel
 Plan detection for suspicious PowerShell. Generate KQL query.
-
-# YARA for malware
 Plan detection for Cobalt Strike beacon. Generate YARA rule.
 ```
 
-## Detection Output Format
-
-Complete blueprints follow this structure:
-
-```markdown
-# [Detection Title]
-
-## Metadata
-- ID, Author, Date, Version
-- MITRE ATT&CK Mapping
-- Severity, Platform
-
-## Threat Context
-- Attack scenario
-- Adversary tradecraft
-- Known tools
-
-## Detection Logic
-- Objective and hypothesis
-- Vendor-agnostic description
-- Sigma/YARA rule
-- Exclusion rationale
-
-## Data Requirements
-- Required sources (priority ranked)
-- Field mappings
-- Visibility gaps
-- Configuration needs
-
-## Validation & Testing
-- Positive test procedures
-- Negative test cases
-- Evaluation metrics
-- Tuning recommendations
-
-## Response Guidance
-- Triage steps
-- Investigation queries
-- Remediation actions
-
-## Limitations
-- Known gaps
-- Assumptions
-- Future enhancements
-
-## References
-- ATT&CK links
-- Research papers
-- Related detections
+### Effective Prompts
 ```
-
-## Best Practices
-
-### For Tyler's Workflow
-
-**Optimize for learning:**
-- Request Sigma rules by default
-- Ask for Atomic Red Team test IDs
-- Include MITRE ATT&CK context
-- Prefer precision over recall (reduce noise)
-
-**Effective prompts:**
-```
-# Good - specific and actionable
+# Good — specific and actionable
 Plan detection for Okta MFA fatigue attacks targeting privileged users.
 Generate Sigma rule. Include Atomic Red Team tests.
 
-# Less effective - too vague
+# Less effective — too vague
 Detect authentication attacks
 ```
 
-**Iterative refinement:**
-```
-# After initial detection
-Review the false positive patterns in this Sigma rule.
-Suggest additional exclusions for enterprise IT tools.
+## Detection Blueprint Format
 
-# After testing
-This detection triggers on Microsoft SCCM. 
-Apply tuning recommendations to exclude SCCM without losing coverage.
-```
+Final output follows this structure:
 
-### Common Patterns
+```markdown
+## Metadata
+- ID, Author, Date, Version, MITRE ATT&CK Mapping, Severity, Platform
 
-**Incident-driven detection:**
-```
-Plan detection based on this incident:
-- Attacker used living-off-the-land binary certutil.exe
-- Downloaded malicious payload from pastebin
-- Executed via scheduled task
+## Threat Context
+- Attack scenario, adversary tradecraft, known tools
 
-Generate Sigma rule targeting certutil download activity.
-```
+## Detection Logic
+- Objective and hypothesis, vendor-agnostic description, Sigma/YARA rule, exclusion rationale
 
-**Threat intel-driven detection:**
-```
-Plan detection for APT29 technique:
-- Cloud token theft via Azure AD device registration abuse
-- Technique: T1528
-- Environment: Microsoft 365
+## Data Requirements
+- Required sources, field mappings, visibility gaps, configuration needs
 
-Generate Sigma rule for Azure AD audit logs.
-```
+## Validation & Testing
+- Positive/negative test procedures, Atomic Red Team IDs, tuning recommendations
 
-**Purple team-driven detection:**
-```
-Plan detection for this Atomic Red Team test: T1003.001-1
-Test dumps LSASS using comsvcs.dll and rundll32.
+## Response Guidance
+- Triage steps, investigation queries, remediation actions
 
-Generate Sigma rule that catches this technique.
-Include alternative tool variations (procdump, mimikatz).
+## Limitations
+- Known gaps, assumptions, future enhancements
+
+## References
 ```
 
 ## Troubleshooting
 
-### Skills not activating
-
-**Issue:** AI doesn't follow skill workflow
-
-**Solution:** Use explicit orchestration prompt from `orchestration_template.md`
-
-### Generic detections
-
-**Issue:** Output lacks specificity
-
-**Solution:** Provide more context in initial prompt:
-- Specific tools/techniques
-- Environment constraints
-- Precision vs. coverage preference
-
-### Missing Sigma/YARA output
-
-**Issue:** No rule generated
-
-**Solution:** Explicitly request: "Generate Sigma rule" or "Generate YARA rule"
-
-### Incomplete blueprints
-
-**Issue:** Missing sections in final output
-
-**Solution:** Request full workflow execution: "Execute all 6 skills" or "Complete detection blueprint"
-
-## Examples
-
-See `orchestration_template.md` for:
-- Full workflow examples
-- Single skill invocations
-- Partial workflow patterns
-- Custom format requests
-- Environment-specific detections
-
-## Extending the Framework
-
-### Add Custom Skills
-
-Create new skills following this template:
-
-```markdown
-# Skill N: [Skill Name]
-
-**Name:** [Short name]
-
-**When to use:** [Trigger conditions]
-
-**Inputs:**
-- [Required information]
-
-**Workflow steps:**
-1. [Step 1]
-2. [Step 2]
-...
-
-**Outputs:**
-[Structured artifact description]
-
-**References:**
-- [External resources]
-```
-
-### Modify Workflows
-
-Customize orchestration for your environment:
-- Add organization-specific exclusions
-- Include proprietary data sources
-- Integrate with internal tools
-- Enforce detection naming conventions
-
-## Contributing
-
-To improve these skills:
-1. Test with real threat scenarios
-2. Document edge cases
-3. Refine workflow steps
-4. Share enhanced versions
+| Issue | Solution |
+|-------|----------|
+| Skills not activating | Use the explicit orchestration prompt from `orchestration_template.md` |
+| Generic/vague output | Add more context: specific tools, environment constraints, precision vs. coverage preference |
+| No Sigma/YARA output | Explicitly request: "Generate Sigma rule" or "Generate YARA rule" |
+| Incomplete blueprint | Request: "Execute all 6 skills" or "Complete detection blueprint" |
 
 ## References
 
@@ -414,11 +159,3 @@ To improve these skills:
 - [MITRE ATT&CK Framework](https://attack.mitre.org/)
 - [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team)
 - [OSSEM Project](https://github.com/OTRF/OSSEM)
-
-## License
-
-These skills are provided as templates for detection engineering workflows. Adapt and modify for your organization's needs.
-
-## Version
-
-Version 1.0 - Initial release based on Threat Hunter Playbook methodology adapted for detection engineering
