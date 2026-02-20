@@ -1,17 +1,25 @@
 # Detection Engineering Agent Skills
 
-A structured framework for planning, designing, validating, and maintaining security detections using AI-assisted workflows. Based on the [Threat Hunter Playbook agentic skills model](https://blog.openthreatresearch.com/evolving-the-threat-hunter-playbook-planning-hunts-with-agent-skills/), adapted for detection engineering.
+A structured framework for planning, designing, validating, and maintaining security detections using AI-assisted workflows. Based on the [Threat Hunter Playbook agentic skills model](https://blog.openthreatresearch.com/evolving-the-threat-hunter-playbook-planning-hunts-with-agent-skills/) and [Anvilogic's agentic detection engineering methodology](https://www.anvilogic.com/learn/automating-the-scientific-method-for-cybersecurity), adapted for detection engineering.
 
 ## Overview
 
-Six composable skills that guide systematic detection development:
+Nine composable skills that guide systematic detection development end-to-end:
 
+**Detection Creation (per-detection workflow)**
 1. **Research & Context** - Map the threat to MITRE ATT&CK, document normal vs. malicious behavior
 2. **Detection Objective & Scope** - Define what to detect, scope boundaries, and success criteria
 3. **Data Source & Telemetry Mapping** - Identify required logs, fields, and visibility gaps
 4. **Detection Logic Design** - Create analytical logic (Sigma/YARA/vendor-agnostic)
 5. **Validation & Testing Plan** - Design simulation and testing approach
 6. **Detection Blueprint Assembly** - Compile a deployment-ready package
+
+**Accelerators (run before or alongside the core workflow)**
+7. **Threat Intelligence Ingestion** - Parse threat reports/feeds to extract ATT&CK TTPs, IOCs, and behavioral indicators as detection inputs
+8. **Environment Baseline Profiling** - Document org-specific schemas, tooling, and exclusion baselines to pre-tune detections for your environment
+
+**Program-Level (run across the detection library)**
+9. **Detection Coverage & Gap Analysis** - Map existing detections to ATT&CK, identify gaps, and produce a prioritized detection roadmap
 
 ## File Structure
 
@@ -24,7 +32,10 @@ detection_engineering_skills/
 ├── skill_03_data_source_mapping.md
 ├── skill_04_detection_logic.md
 ├── skill_05_validation_testing.md
-└── skill_06_blueprint_assembly.md
+├── skill_06_blueprint_assembly.md
+├── skill_07_threat_intel_ingestion.md
+├── skill_08_environment_baseline.md
+└── skill_09_coverage_gap_analysis.md
 ```
 
 ## Quick Start
@@ -80,10 +91,34 @@ Using Detection Logic Design skill, convert this behavior to a Sigma rule
 
 ## Usage Patterns
 
-### Full Workflow
+### Full Detection Workflow (Skills 1-6)
 ```
 Plan detection for <threat>. Generate a Sigma rule.
-Execute all 6 detection engineering skills in sequence.
+Execute skills 1-6 in sequence.
+```
+
+### Starting from Threat Intel (Skill 7 → Skills 1-6)
+```
+I have a threat report on APT29 cloud techniques. [paste or link report]
+Apply the Threat Intelligence Ingestion skill to extract detection inputs,
+then execute skills 1-6 for the highest-priority technique.
+```
+
+### Pre-tuned for Your Environment (Skill 8 → Skills 4-5)
+```
+Apply the Environment Baseline Profiling skill for our environment:
+- Splunk Enterprise, Windows Sysmon, CrowdStrike Falcon
+- Known tools: Tenable scanner (192.168.1.50), SCCM (svc-sccm account), Veeam backup
+
+Then execute skills 4-5 using this baseline for tuning.
+```
+
+### Program Coverage Review (Skill 9)
+```
+Apply the Detection Coverage & Gap Analysis skill.
+Current detections: [list or describe your detection library]
+Threat context: financial services, focus on ransomware and insider threat.
+Output a prioritized gap list and recommended next 5 detections.
 ```
 
 ### Partial Workflows
@@ -103,19 +138,9 @@ Plan detection for suspicious PowerShell. Generate KQL query.
 Plan detection for Cobalt Strike beacon. Generate YARA rule.
 ```
 
-### Effective Prompts
-```
-# Good — specific and actionable
-Plan detection for Okta MFA fatigue attacks targeting privileged users.
-Generate Sigma rule. Include Atomic Red Team tests.
-
-# Less effective — too vague
-Detect authentication attacks
-```
-
 ## Detection Blueprint Format
 
-Final output follows this structure:
+Final output (Skill 6) follows this structure:
 
 ```markdown
 ## Metadata
@@ -154,8 +179,10 @@ Final output follows this structure:
 ## References
 
 - [Original Threat Hunter Playbook Article](https://blog.openthreatresearch.com/evolving-the-threat-hunter-playbook-planning-hunts-with-agent-skills/)
+- [Anvilogic: Automating the Scientific Method for Cybersecurity](https://www.anvilogic.com/learn/automating-the-scientific-method-for-cybersecurity)
 - [Sigma Specification](https://github.com/SigmaHQ/sigma-specification)
 - [YARA Documentation](https://yara.readthedocs.io/)
 - [MITRE ATT&CK Framework](https://attack.mitre.org/)
 - [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team)
 - [OSSEM Project](https://github.com/OTRF/OSSEM)
+- [DeTTECT Framework](https://github.com/rabobank-cdc/DeTTECT)
