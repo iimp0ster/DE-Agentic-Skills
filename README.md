@@ -4,7 +4,7 @@ A structured framework for planning, designing, validating, and maintaining secu
 
 ## Overview
 
-Nine composable skills that guide systematic detection development end-to-end:
+Ten composable skills that guide systematic detection development end-to-end:
 
 **Detection Creation (per-detection workflow)**
 1. **Research & Context** - Map the threat to MITRE ATT&CK, document normal vs. malicious behavior
@@ -21,12 +21,15 @@ Nine composable skills that guide systematic detection development end-to-end:
 **Program-Level (run across the detection library)**
 9. **Detection Coverage & Gap Analysis** - Map existing detections to ATT&CK, identify gaps, and produce a prioritized detection roadmap
 
+**Adversary Emulation (run after detection is built)**
+10. **Adversary Emulation Script Generation** - Generate Atomic Red Team-based PowerShell (Windows) and shell (Linux/macOS) emulation scripts that exercise the exact ATT&CK techniques targeted by the detection, closing the detect-validate loop
+
 ## File Structure
 
 ```
 detection_engineering_skills/
-├── README.md                           # This file
-├── orchestration_template.md           # Usage patterns and examples
+├── README.md                              # This file
+├── orchestration_template.md              # Usage patterns and examples
 ├── skill_01_research_context.md
 ├── skill_02_detection_objective.md
 ├── skill_03_data_source_mapping.md
@@ -35,7 +38,10 @@ detection_engineering_skills/
 ├── skill_06_blueprint_assembly.md
 ├── skill_07_threat_intel_ingestion.md
 ├── skill_08_environment_baseline.md
-└── skill_09_coverage_gap_analysis.md
+├── skill_09_coverage_gap_analysis.md
+├── skill_10_adversary_emulation.md        # Adversary emulation skill (NEW)
+├── emulation_script_reference_windows.ps1 # Expected output format — Windows (NEW)
+└── emulation_script_reference_linux.sh    # Expected output format — Linux/macOS (NEW)
 ```
 
 ## Quick Start
@@ -97,11 +103,36 @@ Plan detection for <threat>. Generate a Sigma rule.
 Execute skills 1-6 in sequence.
 ```
 
+### Full Detection + Emulation (Skills 1-6, then Skill 10)
+```
+Plan detection for <threat>. Generate a Sigma rule. Target: Windows.
+Execute skills 1-6, then run Skill 10 to generate an Atomic Red Team
+emulation script for all ATT&CK techniques in the blueprint.
+Include both a Windows PowerShell script (.ps1) and a Linux shell wrapper (.sh).
+```
+
 ### Starting from Threat Intel (Skill 7 → Skills 1-6)
 ```
 I have a threat report on APT29 cloud techniques. [paste or link report]
 Apply the Threat Intelligence Ingestion skill to extract detection inputs,
 then execute skills 1-6 for the highest-priority technique.
+```
+
+### Threat-Actor Emulation from Intel (Skill 7 → Skill 10 → Skills 1-6)
+```
+I have a threat report on <threat actor>. [paste or link report]
+1. Apply Skill 7 to extract ATT&CK techniques and behavioral patterns.
+2. Apply Skill 10 to generate a Windows + Linux Atomic Red Team emulation
+   script covering all extracted techniques.
+3. Apply skills 1-6 for the highest-priority detection candidate.
+```
+
+### Emulation-Only (Skill 10 standalone)
+```
+Apply Skill 10 to generate an Atomic Red Team emulation script for:
+Techniques: T1059.001, T1003.001, T1560.001, T1048.003
+Threat actor: <name>
+Platform: Windows + Linux
 ```
 
 ### Pre-tuned for Your Environment (Skill 8 → Skills 4-5)
@@ -137,6 +168,33 @@ Plan detection for mimikatz. Generate logic in Splunk SPL format.
 Plan detection for suspicious PowerShell. Generate KQL query.
 Plan detection for Cobalt Strike beacon. Generate YARA rule.
 ```
+
+## Adversary Emulation
+
+**Skill 10** generates Atomic Red Team-based emulation scripts directly from the ATT&CK techniques in your detection blueprint. This closes the detect-validate loop so you can immediately run the simulation on a test machine and verify your Sigma rules fire.
+
+### How it works
+
+1. Skill 10 extracts all technique IDs from the completed detection blueprint
+2. It maps each technique to the best-fit Atomic Red Team test number(s) from the [atomics library](https://github.com/redcanaryco/atomic-red-team/tree/master/atomics)
+3. It sequences the tests by kill chain phase to mirror realistic adversary behavior
+4. It generates a ready-to-run PowerShell script (Windows) and shell wrapper (Linux/macOS)
+5. Each test block follows the pattern: `GetPrereqs → Execute → Sleep → Cleanup`
+6. The script logs all executions to a CSV file for post-run review
+
+### Output format
+
+Scripts follow the structure defined in the reference templates in this repo:
+- `emulation_script_reference_windows.ps1` — Windows output format (PowerShell, Invoke-AtomicRedTeam)
+- `emulation_script_reference_linux.sh` — Linux/macOS output format (bash wrapper + pwsh)
+
+### Safety requirements
+
+Emulation scripts must only be run on **isolated test machines** with EDR/SIEM active. Always:
+- Notify the security team before running
+- Take a system snapshot beforehand
+- Review each atomic test at https://atomicredteam.io before executing
+- Verify cleanup has run and security controls are restored afterward
 
 ## Detection Blueprint Format
 
@@ -175,6 +233,9 @@ Final output (Skill 6) follows this structure:
 | Generic/vague output | Add more context: specific tools, environment constraints, precision vs. coverage preference |
 | No Sigma/YARA output | Explicitly request: "Generate Sigma rule" or "Generate YARA rule" |
 | Incomplete blueprint | Request: "Execute all 6 skills" or "Complete detection blueprint" |
+| No emulation script | Explicitly request: "Run Skill 10 to generate the Atomic Red Team emulation script" |
+| Wrong platform in script | Specify target: "Generate Windows PowerShell script" or "Generate Linux shell wrapper" |
+| Atomic test ID unknown | Ask: "Which Atomic Red Team test best covers T1XXX? List test numbers and descriptions" |
 
 ## References
 
@@ -184,5 +245,8 @@ Final output (Skill 6) follows this structure:
 - [YARA Documentation](https://yara.readthedocs.io/)
 - [MITRE ATT&CK Framework](https://attack.mitre.org/)
 - [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team)
+- [Invoke-AtomicRedTeam](https://github.com/redcanaryco/invoke-atomicredteam)
+- [Invoke-AtomicRedTeam Installation Guide](https://github.com/redcanaryco/invoke-atomicredteam/wiki/Installing-Invoke-AtomicRedTeam)
+- [simulate-akira — Reference Emulation Pattern](https://github.com/skandler/simulate-akira)
 - [OSSEM Project](https://github.com/OTRF/OSSEM)
 - [DeTTECT Framework](https://github.com/rabobank-cdc/DeTTECT)
