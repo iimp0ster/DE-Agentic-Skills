@@ -2,11 +2,12 @@
 
 ## End-to-End Detection Engineering Workflow
 
-Use this template to execute the complete detection engineering process. The nine skills are organized into three groups:
+Use this template to execute the complete detection engineering process. The eleven skills are organized into four groups:
 
 - **Skills 1-6:** Core per-detection workflow
 - **Skills 7-8:** Accelerators (run before or alongside the core workflow)
 - **Skill 9:** Program-level coverage analysis (run across the detection library)
+- **Skills 10-11:** Adversary emulation loop (validate detections against realistic emulated activity)
 
 ### Standard Orchestration Prompt (Skills 1-6)
 
@@ -59,6 +60,63 @@ Before building detections, apply the Environment Baseline Profiling skill for o
 
 Use this baseline throughout skills 4 and 5 to pre-tune detection logic and
 filter lists for this environment. Then execute skills 1-6 for <THREAT_SCENARIO>.
+```
+
+### Purple Team Emulation Workflow (Skills 10-11 wrapping Skills 1-6)
+
+```
+I want to validate a detection for <THREAT_SCENARIO> using adversary emulation.
+
+Execute the following workflow:
+
+1. Research & Context (Skill 1) — build threat and tradecraft understanding
+2. Detection Objective & Scope (Skill 2) — define hypothesis and success criteria
+3. Data Source & Telemetry Mapping (Skill 3) — identify required log sources and fields
+4. Detection Logic Design (Skill 4) — write production-grade detection logic [Generate Sigma rule]
+5. Validation & Testing Plan (Skill 5) — design tests AND produce adversary emulation inputs:
+   - Kill chain context (preceding/following TTPs)
+   - Per-step expected telemetry map
+   - Lab prerequisites
+6. Adversary Emulation Plan Design (Skill 10) — structure execution plan for TTPRunner:
+   - Threat actor profile: <actor name or "generic" if unknown>
+   - Target platform: <Windows/Linux>
+   - Execution method: <WinRM | SSH | QMP>
+   - VECTR tracking: <yes/no>
+7. Detection Blueprint Assembly (Skill 6) — compile full documentation package
+
+After executing the emulation plan in the lab, provide the TTPRunner outputs and run:
+8. Emulation Results Analysis (Skill 11) — analyze outcomes and close the loop
+
+Requirements:
+- Complete each skill fully before proceeding to the next
+- Present the Skill 10 output as a ready-to-use TTPRunner execution plan
+- Present the Skill 6 output as a structured markdown detection blueprint
+```
+
+### Post-Emulation Detection Improvement (Skill 11 → Skills 4, 5, 6)
+
+```
+I ran an adversary emulation and have the following results:
+
+TTPRunner outputs / VECTR campaign results:
+<paste TTPRunner markdown report or VECTR export>
+
+Original detection hypothesis:
+<paste from Skill 2 output>
+
+Expected telemetry map:
+<paste from Skill 10 Step 4 output>
+
+Apply Emulation Results Analysis (Skill 11) to:
+1. Map each emulation step to: TP / FN / Telemetry Gap / Execution Failure
+2. Root cause all false negatives and telemetry gaps
+3. Score overall detection effectiveness
+4. Produce specific, actionable logic fixes for Skill 4
+5. Produce data source remediation items for Skill 3
+6. Update the detection blueprint (Skill 6) with:
+   - Emulation validation evidence section
+   - Revised limitations based on findings
+   - Regression test cases for permanent inclusion in Skill 5
 ```
 
 ### Program Coverage Review (Skill 9)
@@ -144,6 +202,25 @@ Run the Validation & Testing Plan skill for this existing Sigma rule:
 [paste your Sigma rule]
 ```
 
+**Emulation Plan Only:**
+```
+Apply the Adversary Emulation Plan Design skill (Skill 10) to generate a TTPRunner execution plan for:
+Technique: T1003.001 (LSASS Memory — credential dumping)
+Threat actor: APT29 representative profile
+Target: Windows Server 2022, domain-joined
+Execution method: WinRM
+VECTR tracking: yes
+```
+
+**Emulation Results Analysis Only:**
+```
+Apply the Emulation Results Analysis skill (Skill 11) to the following results:
+[paste TTPRunner report or VECTR export]
+
+Original hypothesis: [paste from Skill 2]
+Expected telemetry map: [paste from Skill 10 Step 4]
+```
+
 ### Partial Workflow Examples
 
 **Research through Data Mapping (Skills 1-3):**
@@ -166,7 +243,7 @@ Context from my research:
 ## Integration Methods
 
 ### Claude Projects
-1. Upload all skill files (skill_01 through skill_09) to Project Knowledge
+1. Upload all skill files (skill_01 through skill_11) to Project Knowledge
 2. Upload this orchestration template
 3. In any new chat within the project, simply invoke:
    ```
@@ -188,6 +265,8 @@ Save skills to your detection repository:
       skill_07_threat_intel_ingestion.md
       skill_08_environment_baseline.md
       skill_09_coverage_gap_analysis.md
+      skill_10_adversary_emulation_plan.md
+      skill_11_emulation_results_analysis.md
       orchestration.md
 ```
 
@@ -213,6 +292,8 @@ When user requests detection development, reference these skills:
 - Threat Intel Ingestion: skill_07_threat_intel_ingestion.md
 - Environment Baseline Profiling: skill_08_environment_baseline.md
 - Coverage & Gap Analysis: skill_09_coverage_gap_analysis.md
+- Adversary Emulation Plan Design: skill_10_adversary_emulation_plan.md
+- Emulation Results Analysis: skill_11_emulation_results_analysis.md
 
 Default to Sigma rule generation unless YARA explicitly requested.
 ```
