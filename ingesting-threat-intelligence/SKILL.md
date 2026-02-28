@@ -1,8 +1,9 @@
-# Skill 7: Threat Intelligence Ingestion
+---
+name: ingesting-threat-intelligence
+description: Converts threat intelligence artifacts into structured detection inputs. Extracts ATT&CK technique mappings, IOC catalogs, and behavioral patterns from threat reports, advisories, blog posts, or IOC feeds, then produces prioritized detection input cards. Use when given a threat intel artifact as the starting point for detection work. Triggers: threat report, security advisory, IOC feed, blog post about an attack campaign.
+---
 
-**Name:** Threat Intelligence Ingestion
-
-**When to use:** User provides a threat intelligence artifact — a blog post, security advisory, threat report, IOC feed, or raw indicator list — and wants to convert it into structured detection inputs. Use this skill before Skill 1 (Research & Context) when starting from external intel rather than a threat scenario description.
+# Ingesting Threat Intelligence
 
 **Inputs:**
 - Threat intel artifact: URL, pasted report text, advisory PDF summary, or IOC list

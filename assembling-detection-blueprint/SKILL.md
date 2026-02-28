@@ -1,8 +1,9 @@
-# Skill 6: Detection Blueprint Assembly
+---
+name: assembling-detection-blueprint
+description: Assembles all prior detection engineering outputs into a single deployment-ready detection blueprint document. Combines threat context, detection logic, data requirements, validation procedures, response guidance, and metadata into a structured markdown package. Use as the final step after skills 1-5 are complete to produce a shareable detection artifact.
+---
 
-**Name:** Detection Blueprint Assembly
-
-**When to use:** After all previous skills (1-5) are complete. Assembles final deployment-ready detection package.
+# Assembling Detection Blueprint
 
 **Inputs:**
 - All outputs from Skills 1-5
@@ -70,7 +71,7 @@
 10. **Format as markdown document** - Structure with clear sections:
     ```markdown
     # [Detection Title]
-    
+
     ## Metadata
     ## Threat Context
     ## Detection Logic

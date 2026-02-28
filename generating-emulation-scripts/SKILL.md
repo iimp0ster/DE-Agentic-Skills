@@ -1,8 +1,9 @@
-# Skill 10: Adversary Emulation Script Generation
+---
+name: generating-emulation-scripts
+description: Generates ready-to-run Atomic Red Team adversary emulation scripts from ATT&CK technique IDs. Produces a Windows PowerShell script and Linux/macOS shell wrapper, a test-to-detection mapping table, and pre/post-execution checklists. Use after a detection blueprint is complete or after threat intelligence ingestion to validate detection coverage. Triggers: "generate emulation script", "create Atomic Red Team test", "validate detection coverage."
+---
 
-**Name:** Adversary Emulation Script Generation
-
-**When to use:** After a detection blueprint is complete (Skills 1-6) or after threat intelligence has been ingested (Skill 7). Use this skill to generate a ready-to-run Atomic Red Team adversary emulation script that exercises the exact ATT&CK techniques targeted by the detection. Closes the detect-validate loop by producing an executable simulation script alongside the detection rule, so engineers can immediately verify alert coverage on a test system.
+# Generating Emulation Scripts
 
 **Inputs:**
 - ATT&CK technique IDs from detection blueprint or threat intel package (e.g., T1059.001, T1003.001)
@@ -109,8 +110,8 @@
 - Gap list: ATT&CK techniques with no Atomic Red Team coverage requiring custom test development
 
 **Integration with the core workflow:**
-- **After Skills 1-6:** Run Skill 10 to produce the emulation script for the completed detection blueprint
-- **After Skill 7 (Threat Intel Ingestion):** Run Skill 10 immediately after to generate a threat-actor-specific simulation script before the full detection is built — enables proactive coverage testing
+- **After Skills 1-6:** Run this skill to produce the emulation script for the completed detection blueprint
+- **After Skill 7 (Threat Intel Ingestion):** Run immediately after to generate a threat-actor-specific simulation script before the full detection is built — enables proactive coverage testing
 - **Feeding back to Skills 1-6:** Techniques in the emulation gap list that produce no detection become priority inputs for a new detection development cycle
 
 **References:**

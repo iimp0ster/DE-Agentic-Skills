@@ -1,8 +1,9 @@
-# Skill 9: Detection Coverage & Gap Analysis
+---
+name: analyzing-coverage-gaps
+description: Maps an existing detection library to the MITRE ATT&CK framework, identifies coverage gaps, assesses detection quality, and produces a prioritized detection roadmap. Use at the program level to assess detection library maturity or plan new detection work. Triggers: "what are we missing", "map our coverage to ATT&CK", "prioritize our next detections", "show our detection gaps."
+---
 
-**Name:** Detection Coverage & Gap Analysis
-
-**When to use:** When assessing the current state of a detection library, planning new detection work, or reporting on program maturity. Use this skill at the program level — not for individual detections. Triggers include: "what are we missing," "map our coverage to ATT&CK," "prioritize our next detections," or "show our detection gaps."
+# Analyzing Coverage Gaps
 
 **Inputs:**
 - Existing detection inventory (list of detections with technique mappings, or a description of current coverage)

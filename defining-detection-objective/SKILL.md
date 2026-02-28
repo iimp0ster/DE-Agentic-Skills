@@ -1,8 +1,9 @@
-# Skill 2: Detection Objective & Scope
+---
+name: defining-detection-objective
+description: Translates threat research into an actionable detection goal with clear scope boundaries. Defines detection hypothesis, noise tolerance targets, success criteria, and benign behavior exclusions. Use after threat research is complete to establish what the detection will alert on and what it will exclude before designing logic.
+---
 
-**Name:** Detection Objective & Scope
-
-**When to use:** After completing Research & Context skill. Translates threat understanding into actionable detection goals with clear boundaries.
+# Defining Detection Objective
 
 **Inputs:**
 - Research & Context output from previous skill

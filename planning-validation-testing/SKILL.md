@@ -1,8 +1,9 @@
-# Skill 5: Validation & Testing Plan
+---
+name: planning-validation-testing
+description: Designs a comprehensive testing approach to validate detection effectiveness. Produces positive and negative test procedures, an evaluation metrics framework, an Atomic Red Team test plan, and an iterative tuning strategy. Use after detection logic is designed to plan how to verify the detection fires correctly and doesn't produce excessive false positives.
+---
 
-**Name:** Validation & Testing Plan
-
-**When to use:** After Detection Logic Design is complete. Designs comprehensive testing approach to validate detection effectiveness.
+# Planning Validation & Testing
 
 **Inputs:**
 - Detection logic from Skill 4

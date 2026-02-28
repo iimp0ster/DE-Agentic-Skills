@@ -1,8 +1,9 @@
-# Skill 1: Research & Context
+---
+name: researching-threat-context
+description: Researches threat scenarios and builds structured context for detection engineering. Maps the attack to MITRE ATT&CK, documents normal vs. malicious system behavior, identifies observable telemetry surfaces, and compiles reference materials. Use at the start of any detection workflow when given a threat scenario, attack technique, or detection idea. Triggers include: "build a detection for X", "detect Y attack", "I need to monitor for Z behavior."
+---
 
-**Name:** Research & Context
-
-**When to use:** User provides a threat scenario, attack technique, or detection idea that needs foundational research before detection design. Triggers include requests like "build a detection for X," "detect Y attack," or "I need to monitor for Z behavior."
+# Researching Threat Context
 
 **Inputs:**
 - Threat scenario description (e.g., "Okta MFA fatigue," "LSASS credential dumping," "Kerberoasting")
