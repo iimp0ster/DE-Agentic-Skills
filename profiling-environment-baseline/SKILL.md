@@ -1,8 +1,9 @@
-# Skill 8: Environment Baseline Profiling
+---
+name: profiling-environment-baseline
+description: Documents organization-specific data schemas, tooling inventory, and known-noisy infrastructure to pre-tune detections for a specific environment. Produces a reusable exclusion baseline, data schema reference, and environment-specific tuning parameters. Use before detection logic design when the environment has unique configurations, known scanners, or specific field naming conventions.
+---
 
-**Name:** Environment Baseline Profiling
-
-**When to use:** Before Detection Logic Design (Skill 4) when the target environment has known quirks, proprietary tooling, or non-standard configurations that will impact detection precision. Also use when starting a detection program in a new environment to establish reusable tuning baselines. Can be run once per environment and referenced across multiple detections.
+# Profiling Environment Baseline
 
 **Inputs:**
 - Target environment description (OS versions, EDR/SIEM stack, cloud platforms)

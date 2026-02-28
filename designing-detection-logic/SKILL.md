@@ -1,8 +1,9 @@
-# Skill 4: Detection Logic Design
+---
+name: designing-detection-logic
+description: Designs the analytical logic that implements a detection objective. Classifies the pattern type, writes vendor-agnostic pseudo-logic, adds noise reduction filters, and optionally generates a Sigma or YARA rule. Use after data source mapping is complete. Triggers: "design the detection logic", "write a Sigma rule", "create the detection query."
+---
 
-**Name:** Detection Logic Design
-
-**When to use:** After Data Source & Telemetry Mapping is complete. Designs the analytical logic that implements the detection objective.
+# Designing Detection Logic
 
 **Inputs:**
 - Detection hypothesis from Skill 2

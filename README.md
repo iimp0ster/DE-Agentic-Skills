@@ -26,22 +26,34 @@ Ten composable skills that guide systematic detection development end-to-end:
 
 ## File Structure
 
+Each skill is in its own directory with a `SKILL.md` file containing YAML frontmatter (`name` and `description`) required for Claude Code skill discovery.
+
 ```
 detection_engineering_skills/
-├── README.md                              # This file
-├── orchestration_template.md              # Usage patterns and examples
-├── skill_01_research_context.md
-├── skill_02_detection_objective.md
-├── skill_03_data_source_mapping.md
-├── skill_04_detection_logic.md
-├── skill_05_validation_testing.md
-├── skill_06_blueprint_assembly.md
-├── skill_07_threat_intel_ingestion.md
-├── skill_08_environment_baseline.md
-├── skill_09_coverage_gap_analysis.md
-├── skill_10_adversary_emulation.md        # Adversary emulation skill (NEW)
-├── emulation_script_reference_windows.ps1 # Expected output format — Windows (NEW)
-└── emulation_script_reference_linux.sh    # Expected output format — Linux/macOS (NEW)
+├── README.md                                    # This file
+├── orchestration_template.md                    # Usage patterns and examples
+├── emulation_script_reference_windows.ps1       # Expected emulation output format — Windows
+├── emulation_script_reference_linux.sh          # Expected emulation output format — Linux/macOS
+├── researching-threat-context/
+│   └── SKILL.md                                 # Skill 1: Research & Context
+├── defining-detection-objective/
+│   └── SKILL.md                                 # Skill 2: Detection Objective & Scope
+├── mapping-data-sources/
+│   └── SKILL.md                                 # Skill 3: Data Source & Telemetry Mapping
+├── designing-detection-logic/
+│   └── SKILL.md                                 # Skill 4: Detection Logic Design
+├── planning-validation-testing/
+│   └── SKILL.md                                 # Skill 5: Validation & Testing Plan
+├── assembling-detection-blueprint/
+│   └── SKILL.md                                 # Skill 6: Detection Blueprint Assembly
+├── ingesting-threat-intelligence/
+│   └── SKILL.md                                 # Skill 7: Threat Intelligence Ingestion
+├── profiling-environment-baseline/
+│   └── SKILL.md                                 # Skill 8: Environment Baseline Profiling
+├── analyzing-coverage-gaps/
+│   └── SKILL.md                                 # Skill 9: Coverage & Gap Analysis
+└── generating-emulation-scripts/
+    └── SKILL.md                                 # Skill 10: Adversary Emulation Script Generation
 ```
 
 ## Quick Start
@@ -68,14 +80,18 @@ This produces a complete detection package including MITRE ATT&CK mapping, a Sig
 ### Claude Projects (Recommended)
 
 1. Create a new Claude Project (e.g., "Detection Engineering")
-2. Upload all `.md` files from this directory to Project Knowledge
+2. Upload all `SKILL.md` files from each skill directory to Project Knowledge
 3. Start a new chat and prompt away — no coding required
 
 ### Claude Code
 
 ```bash
 mkdir -p skills/detection_engineering
-cp *.md skills/detection_engineering/
+cp -r researching-threat-context defining-detection-objective mapping-data-sources \
+      designing-detection-logic planning-validation-testing assembling-detection-blueprint \
+      ingesting-threat-intelligence profiling-environment-baseline \
+      analyzing-coverage-gaps generating-emulation-scripts \
+      skills/detection_engineering/
 
 claude "Using detection engineering skills, create a detection for
 AWS IAM privilege escalation. Output Sigma rule to /detections/aws/"

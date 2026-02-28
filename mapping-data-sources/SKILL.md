@@ -1,8 +1,9 @@
-# Skill 3: Data Source & Telemetry Mapping
+---
+name: mapping-data-sources
+description: Maps detection requirements to concrete data sources and field-level telemetry. Produces a prioritized data source list, field mapping table, visibility gap analysis, and logging configuration requirements. Use after a detection objective is defined to determine what logs and fields the detection logic will depend on.
+---
 
-**Name:** Data Source & Telemetry Mapping
-
-**When to use:** After Detection Objective & Scope is defined. Maps detection requirements to concrete data sources and field-level telemetry.
+# Mapping Data Sources
 
 **Inputs:**
 - Detection objective and hypothesis from previous skill
